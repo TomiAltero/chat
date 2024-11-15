@@ -1,0 +1,57 @@
+version: '3.8'
+services:
+  cassandra:
+    image: cassandra:latest
+    container_name: my-cassandra
+    ports:
+      - "7000:7000"
+      - "7001:7001"
+      - "7199:7199"
+      - "9042:9042"
+    environment:
+      - CASSANDRA_LISTEN_ADDRESS=0.0.0.0
+      - CASSANDRA_BROADCAST_ADDRESS=cassandra
+      - CASSANDRA_RPC_ADDRESS=0.0.0.0
+      - CASSANDRA_BROADCAST_RPC_ADDRESS=cassandra
+    volumes:
+      - cassandra_data:/var/lib/cassandra
+    networks:
+      - my-network
+
+  api:
+    build: ./api
+    container_name: chat-api
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - CASSANDRA_HOST=my-cassandra
+      - CASSANDRA_PORT=9042
+    volumes:
+      - ./api:/app
+    networks:
+      - my-network
+    depends_on:
+      - cassandra
+
+  frontend:
+    build: ./project
+    container_name: vite-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://chat-api:5000
+    volumes:
+      - ./project:/app
+    networks:
+      - my-network
+    depends_on:
+      - api
+
+networks:
+  my-network:
+    driver: bridge
+
+volumes:
+  cassandra_data:
+    driver: local
