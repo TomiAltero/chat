@@ -25,14 +25,14 @@ const initialMessages = [
 ];
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<any>(null);
   const [messages, setMessages] = useState(initialMessages);
-  const [contacts, setContacts] = useState([]);
-  const [selectedContact, setSelectedContact] = useState(null);
+  const [contacts, setContacts] = useState<any[]>([]);
+  const [selectedContact, setSelectedContact] = useState<any | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isChatVisible, setIsChatVisible] = useState(false); // Controla la visibilidad del chat
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false); // Controla la visibilidad del mensaje de éxito
-  const messagesEndRef = useRef(null);
+  const [isChatVisible, setIsChatVisible] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const messagesEndRef = useRef<any>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -47,8 +47,7 @@ function App() {
       try {
         const response = await axios.get("http://192.168.0.75:5000/api/users");
         const users = response.data;
-        console.log(users);
-        const formattedContacts = users.map((user) => ({
+        const formattedContacts = users.map((user: any) => ({
           id: user.id,
           firstname: user.firstname,
           lastname: user.lastname,
@@ -67,16 +66,37 @@ function App() {
     fetchContacts();
   }, []);
 
-  const handleLogin = (email, password) => {
-    setUser({
-      id: "1",
-      firstname: "Tomas",
-      lastname: "Altero",
-      email,
-    });
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  const handleLogin = async (email: string, password: string) => {
+    try {
+      const response = await axios.post("http://192.168.0.75:5000/api/login", {
+        email,
+        password,
+      });
+
+      if (response.status === 200) {
+        const userData = {
+          id: response.data.user.id,
+          firstname: response.data.user.firstname,
+          lastname: response.data.user.lastname,
+          email: response.data.user.email,
+          token: response.data.token,
+        };
+        setUser(userData);
+        localStorage.setItem("user", JSON.stringify(userData)); // Guardamos el usuario en localStorage
+      }
+    } catch (error) {
+      console.error("Error en el login:", error);
+    }
   };
 
-  const handleRegister = async (email, password, firstname, lastname) => {
+  const handleRegister = async (email: string, password: string, firstname: string, lastname: string) => {
     try {
       const response = await axios.post("http://192.168.0.75:5000/api/users", {
         email,
@@ -86,17 +106,17 @@ function App() {
       });
 
       if (response.status === 201) {
-        setUser({
+        const newUser = {
           id: response.data.id,
           firstname: response.data.firstname,
           lastname: response.data.lastname,
           email: response.data.email,
-        });
+        };
 
-        // Mostrar el mensaje de éxito
+        setUser(newUser);
+        localStorage.setItem("user", JSON.stringify(newUser)); // Guardamos el usuario en localStorage
+
         setShowSuccessMessage(true);
-
-        // Ocultar el mensaje después de 3 segundos
         setTimeout(() => {
           setShowSuccessMessage(false);
         }, 3000);
@@ -112,9 +132,10 @@ function App() {
     setUser(null);
     setMessages(initialMessages);
     setSelectedContact(null);
+    localStorage.removeItem("user"); // Eliminamos el usuario del localStorage
   };
 
-  const handleSendMessage = (content) => {
+  const handleSendMessage = (content: string) => {
     const newMessage = {
       id: Date.now().toString(),
       content,
@@ -125,17 +146,16 @@ function App() {
     setMessages([...messages, newMessage]);
   };
 
-  const handleContactSelect = (contact) => {
+  const handleContactSelect = (contact: any) => {
     setSelectedContact(contact);
     setIsSidebarOpen(false);
   };
 
-  // useEffect para controlar el retraso de la visibilidad del chat
   useEffect(() => {
     if (user) {
       const timer = setTimeout(() => {
         setIsChatVisible(true);
-      }, 2000); // Espera 2 segundos antes de mostrar el chat
+      }, 2000);
 
       return () => clearTimeout(timer);
     }
@@ -170,11 +190,11 @@ function App() {
           />
         </div>
 
-        {isChatVisible && ( // El chat solo se muestra cuando `isChatVisible` es true
+        {isChatVisible && (
           <div className="flex-1 flex flex-col">
             <Header
               user={user}
-              selectedContactName={`${selectedContact?.firstname} ${selectedContact?.lastname}`}
+              selectedContactName={selectedContact ? `${selectedContact.firstname} ${selectedContact.lastname}` : "Bienvenido!"}
               onLogout={handleLogout}
               isMobile={true}
             />
@@ -196,7 +216,6 @@ function App() {
         )}
       </div>
 
-      {/* Mensaje de éxito */}
       {showSuccessMessage && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-6 rounded-md shadow-md text-center">

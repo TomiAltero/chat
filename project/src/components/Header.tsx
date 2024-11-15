@@ -1,4 +1,3 @@
-import React from "react";
 import { LogOut, Settings } from "lucide-react";
 import type { User } from "../types";
 
@@ -15,8 +14,10 @@ export function Header({
   onLogout,
   isMobile,
 }: HeaderProps) {
-  // Mostrar "Selecciona un contacto" si no hay un contacto seleccionado
-  const displayContactName = selectedContactName || "Selecciona un contacto";
+  // Si no hay contacto seleccionado, mostrar "Bienvenido!"
+  const displayContactName = selectedContactName ? selectedContactName : "Bienvenido!";
+
+  const userFullName = `${user.firstname} ${user.lastname}`;
 
   return (
     <div className="flex items-center justify-between p-4 border-b border-gray-100">
@@ -31,13 +32,13 @@ export function Header({
           <img
             src={
               user.avatar ||
-              `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random`
+              `https://ui-avatars.com/api/?name=${encodeURIComponent(userFullName)}&background=random`
             }
-            alt={user.name}
-            className="w-8 h-8 rounded-full"
+            alt={userFullName}
+            className="w-8 h-8 rounded-full text-gray-700"
           />
           <span className="text-sm font-medium text-gray-700 hidden sm:block">
-            {user.name}
+            {userFullName}
           </span>
         </div>
 
