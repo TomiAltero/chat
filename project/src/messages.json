@@ -1,0 +1,31 @@
+{
+    "initialMessages": [
+      {
+        "id": "1",
+        "content": "¿Deseas empezar con el test?",
+        "options": [
+          { "id": "1", "content": "Sí, deseo empezar!" },
+          { "id": "2", "content": "No, gracias!" }
+        ]
+      }
+    ],
+    "testQuestions": [
+      {
+        "id": "1",
+        "question": "¿Qué es Cassandra?",
+        "options": [
+          { "id": "1", "content": "Es una base de datos NoSQL distribuida." },
+          { "id": "2", "content": "Es una base de datos relacional." }
+        ]
+      },
+      {
+        "id": "2",
+        "question": "¿Cuál es una característica principal de Cassandra?",
+        "options": [
+          { "id": "1", "content": "Escalabilidad horizontal sin punto único de falla." },
+          { "id": "2", "content": "Consistencia fuerte." }
+        ]
+      }
+    ]
+  }
+  

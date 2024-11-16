@@ -2,13 +2,14 @@ const express = require("express");
 const cors = require("cors");
 const routeChat = require("./routes/chatRoutes");
 
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Configuración de CORS
 app.use(
   cors({
-    origin: "http://192.168.0.75:3000", 
+    origin: "http://192.168.100.66:3000", 
     methods: "GET,POST", 
     allowedHeaders: "Content-Type", 
   }),
@@ -19,6 +20,7 @@ app.use(express.json());``
 
 // Rutas
 app.use("/api", routeChat);
+
 
 app.get("/", (req, res) => {
   res.send("¡Hola, Express!");

@@ -10,18 +10,129 @@ import axios from "axios";
 const initialMessages = [
   {
     id: "1",
-    content: "Hey there! 👋",
-    sender: "Alice",
-    timestamp: new Date(Date.now() - 3600000),
+    content: "¡Bienvenido al cuestionario de Cassandra! ¿Listo para comenzar?",
+    sender: "Bot",
+    timestamp: new Date(),
     isOwn: false,
+    options: [
+      { label: "Comenzar cuestionario", action: "start_quiz" },
+      { label: "Ver mi cuenta", action: "check_account" },
+      { label: "Cerrar sesión", action: "logout" },
+    ],
+  },
+];
+
+const initialQuestions = [
+  {
+    question: "¿Cómo seleccionar datos de una tabla en Cassandra?",
+    options: [
+      "SELECT * FROM tablename;",
+      "GET * FROM tablename;",
+      "FIND * FROM tablename;",
+      "SELECT * FROM keyspace.tablename;"
+    ],
+    correctAnswer: "SELECT * FROM keyspace.tablename;",
+    explanation: "En Cassandra, es necesario especificar el keyspace antes del nombre de la tabla para realizar una consulta completa."
   },
   {
-    id: "2",
-    content: "Hi! How are you?",
-    sender: "You",
-    timestamp: new Date(Date.now() - 3500000),
-    isOwn: true,
+    question: "¿Cómo crear una tabla en Cassandra?",
+    options: [
+      "CREATE TABLE tablename ❪column1 type, column2 type❫;",
+      "CREATE table tablename ❪column1 type, column2 type❫;",
+      "CREATE table keyspace.tablename ❪column1 type, column2 type❫;",
+      "ADD TABLE keyspace.tablename ❪column1 type, column2 type❫;"
+    ],
+    correctAnswer: "CREATE table keyspace.tablename ❪column1 type, column2 type❫;",
+    explanation: "Para crear una tabla en Cassandra, debes incluir tanto el keyspace como el nombre de la tabla y definir sus columnas con sus tipos correspondientes."
   },
+  {
+    question: "¿Cómo actualizar datos en Cassandra?",
+    options: [
+      "UPDATE tablename SET column1 = value WHERE condition;",
+      "MODIFY tablename SET column1 = value WHERE condition;",
+      "UPDATE tablename ADD column1 = value WHERE condition;",
+      "CHANGE tablename SET column1 = value WHERE condition;"
+    ],
+    correctAnswer: "UPDATE tablename SET column1 = value WHERE condition;",
+    explanation: "El comando correcto para actualizar datos en Cassandra es `UPDATE`, seguido del nombre de la tabla y la condición `WHERE`."
+  },
+  {
+    question: "¿Cómo insertar datos en Cassandra?",
+    options: [
+      "INSERT INTO tablename ❪column1, column2❫ VALUES ❪value1, value2❫;",
+      "PUT INTO tablename ❪column1, column2❫ VALUES ❪value1, value2❫;",
+      "ADD INTO tablename ❪column1, column2❫ VALUES ❪value1, value2❫;",
+      "SET INTO tablename ❪column1, column2❫ VALUES ❪value1, value2❫;"
+    ],
+    correctAnswer: "INSERT INTO tablename ❪column1, column2❫ VALUES ❪value1, value2❫;",
+    explanation: "El comando correcto para insertar datos en Cassandra es `INSERT INTO`."
+  },
+  {
+    question: "¿Cómo eliminar filas en Cassandra?",
+    options: [
+      "REMOVE FROM tablename WHERE condition;",
+      "DELETE FROM tablename WHERE condition;",
+      "ERASE FROM tablename WHERE condition;",
+      "DROP FROM tablename WHERE condition;"
+    ],
+    correctAnswer: "DELETE FROM tablename WHERE condition;",
+    explanation: "El comando correcto para eliminar filas en Cassandra es `DELETE FROM` seguido de la condición."
+  },
+  {
+    question: "¿Cuál es la función de un 'keyspace' en Cassandra?",
+    options: [
+      "Define el esquema de una tabla.",
+      "Almacena la configuración de la red.",
+      "Agrupa varias tablas bajo un mismo esquema.",
+      "Actúa como una base de datos temporal."
+    ],
+    correctAnswer: "Agrupa varias tablas bajo un mismo esquema.",
+    explanation: "Un keyspace es el contenedor principal que define un grupo de tablas en Cassandra, similar a una base de datos en otros sistemas."
+  },
+  {
+    question: "¿Qué tipo de consistencia garantiza la opción 'QUORUM' en Cassandra?",
+    options: [
+      "Lectura en un solo nodo.",
+      "Lectura y escritura en la mayoría de los nodos.",
+      "Lectura en todos los nodos.",
+      "Lectura en dos nodos al mismo tiempo."
+    ],
+    correctAnswer: "Lectura y escritura en la mayoría de los nodos.",
+    explanation: "La opción 'QUORUM' asegura que la mayoría de los nodos lean o escriban los datos, garantizando mayor consistencia."
+  },
+  {
+    question: "¿Cómo definir una clave primaria compuesta en Cassandra?",
+    options: [
+      "PRIMARY KEY ❪column1, column2❫;",
+      "PRIMARY KEY {column1, column2};",
+      "KEY PRIMARY ❪column1, column2);",
+      "COMPOSITE KEY ❪column1, column2❫;"
+    ],
+    correctAnswer: "PRIMARY KEY ❪column1, column2❫;",
+    explanation: "Para definir una clave primaria compuesta, se utiliza la sintaxis `PRIMARY KEY (columna1, columna2)`."
+  },
+  {
+    question: "¿Cómo se borra una tabla en Cassandra?",
+    options: [
+      "DROP TABLE keyspace.tablename;",
+      "REMOVE TABLE keyspace.tablename;",
+      "DELETE TABLE keyspace.tablename;",
+      "CLEAR TABLE keyspace.tablename;"
+    ],
+    correctAnswer: "DROP TABLE keyspace.tablename;",
+    explanation: "El comando correcto para borrar una tabla en Cassandra es `DROP TABLE` seguido del keyspace y nombre de la tabla."
+  },
+  {
+    question: "¿Qué comando se usa para cambiar el tipo de replicación en un keyspace?",
+    options: [
+      "ALTER REPLICATION keyspace;",
+      "UPDATE keyspace WITH replication;",
+      "ALTER KEYSPACE keyspace WITH replication;",
+      "MODIFY REPLICATION ON keyspace;"
+    ],
+    correctAnswer: "ALTER KEYSPACE keyspace WITH replication;",
+    explanation: "Para cambiar la configuración de replicación de un keyspace, se utiliza `ALTER KEYSPACE` seguido de la configuración deseada."
+  }
 ];
 
 function App() {
@@ -32,11 +143,13 @@ function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isChatVisible, setIsChatVisible] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const messagesEndRef = useRef<any>(null);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const [questionIndex, setQuestionIndex] = useState(0);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
 
   useEffect(() => {
     scrollToBottom();
@@ -45,14 +158,13 @@ function App() {
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const response = await axios.get("http://192.168.0.75:5000/api/users");
+        const response = await axios.get("http://192.168.100.66:5000/api/users");
         const users = response.data;
         const formattedContacts = users.map((user: any) => ({
           id: user.id,
           firstname: user.firstname,
           lastname: user.lastname,
-          avatar:
-            "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp",
+          avatar: "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp",
           status: "online",
           lastSeen: new Date(),
           unreadCount: 0,
@@ -75,7 +187,7 @@ function App() {
 
   const handleLogin = async (email: string, password: string) => {
     try {
-      const response = await axios.post("http://192.168.0.75:5000/api/login", {
+      const response = await axios.post("http://192.168.100.66:5000/api/login", {
         email,
         password,
       });
@@ -89,16 +201,19 @@ function App() {
           token: response.data.token,
         };
         setUser(userData);
-        localStorage.setItem("user", JSON.stringify(userData)); // Guardamos el usuario en localStorage
+        localStorage.setItem("user", JSON.stringify(userData));
+      } else {
+        alert("Credenciales incorrectas. Inténtalo de nuevo.");
       }
     } catch (error) {
       console.error("Error en el login:", error);
+      alert("Error al iniciar sesión. Por favor, revisa tu conexión.");
     }
   };
 
   const handleRegister = async (email: string, password: string, firstname: string, lastname: string) => {
     try {
-      const response = await axios.post("http://192.168.0.75:5000/api/users", {
+      const response = await axios.post("http://192.168.100.66:5000/api/users", {
         email,
         password,
         firstname,
@@ -114,17 +229,18 @@ function App() {
         };
 
         setUser(newUser);
-        localStorage.setItem("user", JSON.stringify(newUser)); // Guardamos el usuario en localStorage
+        localStorage.setItem("user", JSON.stringify(newUser));
 
         setShowSuccessMessage(true);
         setTimeout(() => {
           setShowSuccessMessage(false);
         }, 3000);
       } else {
-        console.error("Error en el registro:", response.data);
+        alert("Error al registrar. Inténtalo de nuevo.");
       }
     } catch (error) {
       console.error("Error al registrar:", error);
+      alert("No se pudo crear la cuenta. Revisa los datos ingresados.");
     }
   };
 
@@ -132,10 +248,12 @@ function App() {
     setUser(null);
     setMessages(initialMessages);
     setSelectedContact(null);
-    localStorage.removeItem("user"); // Eliminamos el usuario del localStorage
+    localStorage.removeItem("user");
   };
 
   const handleSendMessage = (content: string) => {
+    if (!content.trim()) return; 
+
     const newMessage = {
       id: Date.now().toString(),
       content,
@@ -143,7 +261,8 @@ function App() {
       timestamp: new Date(),
       isOwn: true,
     };
-    setMessages([...messages, newMessage]);
+    setMessages((prevMessages) => [...prevMessages, newMessage]);
+    // Eliminamos la lógica antigua de "ask_question"
   };
 
   const handleContactSelect = (contact: any) => {
@@ -151,11 +270,73 @@ function App() {
     setIsSidebarOpen(false);
   };
 
+  const showNextQuestion = () => {
+    const nextQuestion = initialQuestions[questionIndex];
+    if (nextQuestion) {
+      console.log('Mostrando la pregunta:', nextQuestion.question); // Añade esta línea para ver qué pregunta se muestra.
+      const botMessage = {
+        id: Date.now().toString(),
+        content: nextQuestion.question,
+        sender: "Bot",
+        timestamp: new Date(),
+        isOwn: false,
+        options: nextQuestion.options.map((option) => ({
+          label: option,
+          action: `answer_${option}`,
+        })),
+      };
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
+    }
+  };
+  
+  const handleOptionSelect = (action: string) => {
+    if (action === "start_quiz") {
+      if (questionIndex === 0 && messages[messages.length - 1].content !== initialQuestions[0].question) {
+        showNextQuestion();
+      }
+    } else if (action === "logout") {
+      handleLogout();
+    } else if (action.startsWith("answer_")) {
+      // Lógica para manejar las respuestas
+      const selectedAnswer = action.replace("answer_", "");
+      const currentQuestion = initialQuestions[questionIndex];
+      const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
+  
+      const responseMessage = {
+        id: Date.now().toString(),
+        content: `${isCorrect ? "¡Correcto! 🎉" : "Incorrecto."} ${currentQuestion.explanation}`,
+        sender: "Bot",
+        timestamp: new Date(),
+        isOwn: false,
+      };
+  
+      setMessages((prevMessages) => [...prevMessages, responseMessage]);
+  
+      // Depuración con console.log
+      console.log('Question index antes de actualizar:', questionIndex);
+  
+      setTimeout(() => {
+        const nextIndex = (questionIndex + 1) % initialQuestions.length;
+        console.log('Question index después de actualizar:', nextIndex);
+        
+        setQuestionIndex(nextIndex);
+      }, 2000);
+    }
+  };
+  
+  // Añade un hook useEffect para ejecutar showNextQuestion cuando questionIndex cambie
+  useEffect(() => {
+    if (questionIndex > 0) {
+      showNextQuestion();
+    }
+  }, [questionIndex]);
+  
+  
   useEffect(() => {
     if (user) {
       const timer = setTimeout(() => {
         setIsChatVisible(true);
-      }, 2000);
+      }, 500);
 
       return () => clearTimeout(timer);
     }
@@ -172,57 +353,36 @@ function App() {
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           className="md:hidden absolute top-3 left-3 z-50 p-2 rounded-md hover:bg-gray-100"
         >
-          {isSidebarOpen ? (
-            <X className="w-6 h-6 text-gray-600" />
-          ) : (
-            <Menu className="w-6 h-6 text-gray-600" />
-          )}
+          {isSidebarOpen ? <X className="w-6 h-6 text-gray-600" /> : <Menu className="w-6 h-6 text-gray-600" />}
         </button>
 
+        {/* Sidebar de contactos */}
         <div
-          className={`absolute md:relative w-80 h-full bg-white transform transition-transform duration-300 ease-in-out z-40
-            ${isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
+          className={`absolute md:relative w-80 h-full bg-white transform transition-transform duration-300 ease-in-out z-40 ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+          }`}
         >
-          <ContactsList
-            contacts={contacts}
-            onSelectContact={handleContactSelect}
-            selectedContactId={selectedContact?.id}
-          />
+          <ContactsList contacts={contacts} onSelectContact={handleContactSelect} selectedContactId={selectedContact?.id} />
         </div>
 
+        {/* Sección de chat */}
         {isChatVisible && (
           <div className="flex-1 flex flex-col">
             <Header
               user={user}
-              selectedContactName={selectedContact ? `${selectedContact.firstname} ${selectedContact.lastname}` : "Bienvenido!"}
+              selectedContactName={selectedContact ? `${selectedContact.firstname} ${selectedContact.lastname}` : ""}
               onLogout={handleLogout}
-              isMobile={true}
             />
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex-1 overflow-y-auto p-4">
               {messages.map((message) => (
-                <ChatMessage key={message.id} message={message} />
+                <ChatMessage key={message.id} message={message} onOptionSelect={handleOptionSelect} />
               ))}
               <div ref={messagesEndRef} />
             </div>
             <ChatInput onSendMessage={handleSendMessage} />
           </div>
         )}
-
-        {isSidebarOpen && (
-          <div
-            className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
-            onClick={() => setIsSidebarOpen(false)}
-          />
-        )}
       </div>
-
-      {showSuccessMessage && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded-md shadow-md text-center">
-            <h2 className="text-lg font-semibold text-green-600">Cuenta creada correctamente</h2>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
