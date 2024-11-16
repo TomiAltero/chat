@@ -273,10 +273,12 @@ function App() {
   const showNextQuestion = () => {
     const nextQuestion = initialQuestions[questionIndex];
     if (nextQuestion) {
-      console.log('Mostrando la pregunta:', nextQuestion.question); // Añade esta línea para ver qué pregunta se muestra.
+      const questionNumber = questionIndex + 1; // Número de la pregunta
+      const totalQuestions = initialQuestions.length;
+
       const botMessage = {
         id: Date.now().toString(),
-        content: nextQuestion.question,
+        content: `Pregunta ${questionNumber}/${totalQuestions}: ${nextQuestion.question}`,
         sender: "Bot",
         timestamp: new Date(),
         isOwn: false,
