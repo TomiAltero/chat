@@ -145,11 +145,11 @@ function App() {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const [questionIndex, setQuestionIndex] = useState(0);
+  const [showLoginAfterRegister, setShowLoginAfterRegister] = useState(false);  // Nuevo estado
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-
 
   useEffect(() => {
     scrollToBottom();
@@ -202,6 +202,7 @@ function App() {
         };
         setUser(userData);
         localStorage.setItem("user", JSON.stringify(userData));
+        setShowLoginAfterRegister(false);  // Resetear estado después de login
       } else {
         alert("Credenciales incorrectas. Inténtalo de nuevo.");
       }
@@ -219,7 +220,7 @@ function App() {
         firstname,
         lastname,
       });
-
+  
       if (response.status === 201) {
         const newUser = {
           id: response.data.id,
@@ -227,11 +228,16 @@ function App() {
           lastname: response.data.lastname,
           email: response.data.email,
         };
-
+  
         setUser(newUser);
         localStorage.setItem("user", JSON.stringify(newUser));
-
+        
+        // Mostrar mensaje de éxito
         setShowSuccessMessage(true);
+  
+        // Iniciar sesión automáticamente después del registro
+        await handleLogin(email, password);
+  
         setTimeout(() => {
           setShowSuccessMessage(false);
         }, 3000);
@@ -262,7 +268,6 @@ function App() {
       isOwn: true,
     };
     setMessages((prevMessages) => [...prevMessages, newMessage]);
-    // Eliminamos la lógica antigua de "ask_question"
   };
 
   const handleContactSelect = (contact: any) => {
@@ -273,7 +278,7 @@ function App() {
   const showNextQuestion = () => {
     const nextQuestion = initialQuestions[questionIndex];
     if (nextQuestion) {
-      const questionNumber = questionIndex + 1; // Número de la pregunta
+      const questionNumber = questionIndex + 1;
       const totalQuestions = initialQuestions.length;
 
       const botMessage = {
@@ -290,7 +295,7 @@ function App() {
       setMessages((prevMessages) => [...prevMessages, botMessage]);
     }
   };
-  
+
   const handleOptionSelect = (action: string) => {
     if (action === "start_quiz") {
       if (questionIndex === 0 && messages[messages.length - 1].content !== initialQuestions[0].question) {
@@ -299,11 +304,10 @@ function App() {
     } else if (action === "logout") {
       handleLogout();
     } else if (action.startsWith("answer_")) {
-      // Lógica para manejar las respuestas
       const selectedAnswer = action.replace("answer_", "");
       const currentQuestion = initialQuestions[questionIndex];
       const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
-  
+
       const responseMessage = {
         id: Date.now().toString(),
         content: `${isCorrect ? "¡Correcto! 🎉" : "Incorrecto."} ${currentQuestion.explanation}`,
@@ -311,41 +315,37 @@ function App() {
         timestamp: new Date(),
         isOwn: false,
       };
-  
+
       setMessages((prevMessages) => [...prevMessages, responseMessage]);
-  
-      // Depuración con console.log
-      console.log('Question index antes de actualizar:', questionIndex);
-  
+
       setTimeout(() => {
         const nextIndex = (questionIndex + 1) % initialQuestions.length;
-        console.log('Question index después de actualizar:', nextIndex);
-        
         setQuestionIndex(nextIndex);
       }, 2000);
     }
   };
-  
-  // Añade un hook useEffect para ejecutar showNextQuestion cuando questionIndex cambie
+
   useEffect(() => {
     if (questionIndex > 0) {
       showNextQuestion();
     }
   }, [questionIndex]);
-  
-  
+
   useEffect(() => {
     if (user) {
       const timer = setTimeout(() => {
         setIsChatVisible(true);
       }, 500);
-
       return () => clearTimeout(timer);
     }
   }, [user]);
 
-  if (!user) {
+  if (!user && !showLoginAfterRegister) {
     return <AuthPanel onLogin={handleLogin} onRegister={handleRegister} />;
+  }
+
+  if (showLoginAfterRegister) {
+    return <AuthPanel onLogin={handleLogin} />;
   }
 
   return (

@@ -22,7 +22,9 @@ export function Header({
   return (
     <div className="flex items-center justify-between p-4 border-b border-gray-100">
       <h1
-        className={`text-xl font-semibold text-gray-800 ${isMobile ? "ml-12" : ""}`}
+        className={`text-xl font-semibold text-gray-800 ${
+          isMobile ? "ml-16 sm:ml-0" : "ml-11 mb-2"
+        }`} 
       >
         {displayContactName}
       </h1>

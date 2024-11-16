@@ -42,10 +42,10 @@ export function ContactsList({
             placeholder="Search contacts..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 rounded-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
+            className="w-60 pl-10 pr-4 py-2 rounded-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow ml-10"
           />
-          <Search className="absolute left-3 top-2.5 text-gray-400 w-5 h-5" />
-        </div>
+      <Search className="absolute left-3 top-2.5 text-gray-400 w-5 h-5 hidden sm:block" />
+      </div>
       </div>
 
       <div className="flex-1 overflow-y-auto">

@@ -17,6 +17,7 @@ export function AuthPanel({ onLogin, onRegister }: AuthPanelProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isChatVisible, setIsChatVisible] = useState(false);
 
+
   useEffect(() => {
     if (successMessage) {
       // Mostrar el chat después de 2 segundos
@@ -29,7 +30,7 @@ export function AuthPanel({ onLogin, onRegister }: AuthPanelProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setErrorMessage(""); // Limpiar mensajes previos
+    setErrorMessage(""); 
 
     try {
       if (isLogin) {
@@ -56,14 +57,12 @@ export function AuthPanel({ onLogin, onRegister }: AuthPanelProps) {
           {isLogin ? "Inicio de Sesión" : "Regístrate"}
         </h2>
 
-        {/* Notificación de éxito */}
         {successMessage && (
           <div className="fixed top-0 left-1/2 transform -translate-x-1/2 bg-green-500 text-white p-4 rounded-lg shadow-lg w-full max-w-md text-center">
             {successMessage}
           </div>
         )}
 
-        {/* Notificación de error */}
         {errorMessage && (
           <div className="fixed top-0 left-1/2 transform -translate-x-1/2 bg-red-500 text-white p-4 rounded-lg shadow-lg w-full max-w-md text-center">
             {errorMessage}
