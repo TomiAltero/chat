@@ -1,0 +1,112 @@
+[
+    {
+      "question": "¿Cómo seleccionar datos de una tabla en Cassandra?",
+      "options": [
+        "SELECT * FROM tablename;",
+        "GET * FROM tablename;",
+        "FIND * FROM tablename;",
+        "SELECT * FROM keyspace.tablename;"
+      ],
+      "correctAnswer": "SELECT * FROM keyspace.tablename;",
+      "explanation": "En Cassandra, es necesario especificar el keyspace antes del nombre de la tabla para realizar una consulta completa."
+    },
+    {
+      "question": "¿Cómo crear una tabla en Cassandra?",
+      "options": [
+        "CREATE TABLE tablename ❪column1 type, column2 type❫;",
+        "CREATE table tablename ❪column1 type, column2 type❫;",
+        "CREATE table keyspace.tablename ❪column1 type, column2 type❫;",
+        "ADD TABLE keyspace.tablename ❪column1 type, column2 type❫;"
+      ],
+      "correctAnswer": "CREATE table keyspace.tablename ❪column1 type, column2 type❫;",
+      "explanation": "Para crear una tabla en Cassandra, debes incluir tanto el keyspace como el nombre de la tabla y definir sus columnas con sus tipos correspondientes."
+    },
+    {
+      "question": "¿Cómo actualizar datos en Cassandra?",
+      "options": [
+        "UPDATE tablename SET column1 = value WHERE condition;",
+        "MODIFY tablename SET column1 = value WHERE condition;",
+        "UPDATE tablename ADD column1 = value WHERE condition;",
+        "CHANGE tablename SET column1 = value WHERE condition;"
+      ],
+      "correctAnswer": "UPDATE tablename SET column1 = value WHERE condition;",
+      "explanation": "El comando correcto para actualizar datos en Cassandra es `UPDATE`, seguido del nombre de la tabla y la condición `WHERE`."
+    },
+    {
+      "question": "¿Cómo insertar datos en Cassandra?",
+      "options": [
+        "INSERT INTO tablename ❪column1, column2❫ VALUES ❪value1, value2❫;",
+        "PUT INTO tablename ❪column1, column2❫ VALUES ❪value1, value2❫;",
+        "ADD INTO tablename ❪column1, column2❫ VALUES ❪value1, value2❫;",
+        "SET INTO tablename ❪column1, column2❫ VALUES ❪value1, value2❫;"
+      ],
+      "correctAnswer": "INSERT INTO tablename ❪column1, column2❫ VALUES ❪value1, value2❫;",
+      "explanation": "El comando correcto para insertar datos en Cassandra es `INSERT INTO`."
+    },
+    {
+      "question": "¿Cómo eliminar filas en Cassandra?",
+      "options": [
+        "REMOVE FROM tablename WHERE condition;",
+        "DELETE FROM tablename WHERE condition;",
+        "ERASE FROM tablename WHERE condition;",
+        "DROP FROM tablename WHERE condition;"
+      ],
+      "correctAnswer": "DELETE FROM tablename WHERE condition;",
+      "explanation": "El comando correcto para eliminar filas en Cassandra es `DELETE FROM` seguido de la condición."
+    },
+    {
+      "question": "¿Cuál es la función de un 'keyspace' en Cassandra?",
+      "options": [
+        "Define el esquema de una tabla.",
+        "Almacena la configuración de la red.",
+        "Agrupa varias tablas bajo un mismo esquema.",
+        "Actúa como una base de datos temporal."
+      ],
+      "correctAnswer": "Agrupa varias tablas bajo un mismo esquema.",
+      "explanation": "Un keyspace es el contenedor principal que define un grupo de tablas en Cassandra, similar a una base de datos en otros sistemas."
+    },
+    {
+      "question": "¿Qué tipo de consistencia garantiza la opción 'QUORUM' en Cassandra?",
+      "options": [
+        "Lectura en un solo nodo.",
+        "Lectura y escritura en la mayoría de los nodos.",
+        "Lectura en todos los nodos.",
+        "Lectura en dos nodos al mismo tiempo."
+      ],
+      "correctAnswer": "Lectura y escritura en la mayoría de los nodos.",
+      "explanation": "La opción 'QUORUM' asegura que la mayoría de los nodos lean o escriban los datos, garantizando mayor consistencia."
+    },
+    {
+      "question": "¿Cómo definir una clave primaria compuesta en Cassandra?",
+      "options": [
+        "PRIMARY KEY ❪column1, column2❫;",
+        "PRIMARY KEY {column1, column2};",
+        "KEY PRIMARY ❪column1, column2);",
+        "COMPOSITE KEY ❪column1, column2❫;"
+      ],
+      "correctAnswer": "PRIMARY KEY ❪column1, column2❫;",
+      "explanation": "Para definir una clave primaria compuesta, se utiliza la sintaxis `PRIMARY KEY (columna1, columna2)`."
+    },
+    {
+      "question": "¿Cómo se borra una tabla en Cassandra?",
+      "options": [
+        "DROP TABLE keyspace.tablename;",
+        "REMOVE TABLE keyspace.tablename;",
+        "DELETE TABLE keyspace.tablename;",
+        "CLEAR TABLE keyspace.tablename;"
+      ],
+      "correctAnswer": "DROP TABLE keyspace.tablename;",
+      "explanation": "El comando correcto para borrar una tabla en Cassandra es `DROP TABLE` seguido del keyspace y nombre de la tabla."
+    },
+    {
+      "question": "¿Qué comando se usa para cambiar el tipo de replicación en un keyspace?",
+      "options": [
+        "ALTER REPLICATION keyspace;",
+        "UPDATE keyspace WITH replication;",
+        "ALTER KEYSPACE keyspace WITH replication;",
+        "MODIFY REPLICATION ON keyspace;"
+      ],
+      "correctAnswer": "ALTER KEYSPACE keyspace WITH replication;",
+      "explanation": "Para cambiar la configuración de replicación de un keyspace, se utiliza `ALTER KEYSPACE` seguido de la configuración deseada."
+    }
+]

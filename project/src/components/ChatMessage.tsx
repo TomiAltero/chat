@@ -9,7 +9,13 @@ interface Message {
   options?: { label: string; action: string }[];
 }
 
-export const ChatMessage = ({ message, onOptionSelect }: { message: Message; onOptionSelect: (action: string) => void }) => {
+interface ChatMessageProps {
+  message: Message;
+  onOptionSelect: (action: string) => void;
+  isQuestionAnswered: boolean;
+}
+
+export const ChatMessage = ({ message, onOptionSelect, isQuestionAnswered }: ChatMessageProps) => {
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
 
   useEffect(() => {
@@ -32,6 +38,7 @@ export const ChatMessage = ({ message, onOptionSelect }: { message: Message; onO
                 key={option.action}
                 className="block w-full text-left text-blue-600"
                 onClick={() => onOptionSelect(option.action)}
+                disabled={isQuestionAnswered} // Deshabilitar el botón si la pregunta ha sido respondida
               >
                 {option.label}
               </button>

@@ -1,0 +1,23 @@
+[
+    {
+      "id": "1",
+      "firstname": "Cassandra Queries",
+      "lastname": "",
+      "avatar": "https://miro.medium.com/v2/resize:fit:1400/0*SKrW656Nlzo2lZwH.png",
+      "status": "online"
+    },
+    {
+      "id": "2",
+      "firstname": "Cassandra History",
+      "lastname": "",
+      "avatar": "https://miro.medium.com/v2/resize:fit:1400/0*SKrW656Nlzo2lZwH.png",
+      "status": "online"
+    },
+    {
+      "id": "3",
+      "firstname": "Cassandra Theory",
+      "lastname": "",
+      "avatar": "https://miro.medium.com/v2/resize:fit:1400/0*SKrW656Nlzo2lZwH.png",
+      "status": "online"
+    }
+]
