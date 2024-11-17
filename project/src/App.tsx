@@ -12,13 +12,12 @@ import contactsData from "./data/contacts.json";
 const initialMessages = [
   {
     id: "1",
-    content: "¡Bienvenido al cuestionario de Cassandra! ¿Listo para comenzar?",
+    content: "Selecciona una opcion!",
     sender: "Bot",
     timestamp: new Date(),
     isOwn: false,
     options: [
       { label: "Comenzar cuestionario", action: "start_quiz" },
-      { label: "Ver mi cuenta", action: "check_account" },
       { label: "Cerrar sesión", action: "logout" },
     ],
   },
@@ -30,7 +29,7 @@ function App() {
   const [user, setUser] = useState<any>(null);
   const [messages, setMessages] = useState(initialMessages);
   const [contacts, setContacts] = useState<any[]>(contactsData);
-  const [selectedContact, setSelectedContact] = useState<any | null>(null);
+  const [selectedContact, setSelectedContact] = useState<any | null>(contacts[0]); 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isChatVisible, setIsChatVisible] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -145,7 +144,36 @@ function App() {
   const handleContactSelect = (contact: any) => {
     setSelectedContact(contact);
     setIsSidebarOpen(false);
+  
+    // Generar un mensaje de bienvenida basado en el contacto seleccionado
+    const welcomeMessage = {
+      id: Date.now().toString(),
+      content: `Hola, bienvenido al bot de ${contact.firstname} ${contact.lastname}!`,
+      sender: "Bot",
+      timestamp: new Date(),
+      isOwn: false,
+    };
+  
+    // Reiniciar el chat con el mensaje inicial y el mensaje de bienvenida
+    setMessages([welcomeMessage, ...initialMessages]);
+    setQuestionIndex(0);
+    setCorrectAnswers(0);
   };
+  
+  // useEffect para mostrar el mensaje de bienvenida al cargar la aplicación
+  useEffect(() => {
+    if (selectedContact) {
+      // Mostrar el mensaje de bienvenida al cargar por defecto
+      const welcomeMessage = {
+        id: Date.now().toString(),
+        content: `Hola, bienvenido al bot de ${selectedContact.firstname} ${selectedContact.lastname}!`,
+        sender: "Bot",
+        timestamp: new Date(),
+        isOwn: false,
+      };
+      setMessages([welcomeMessage, ...initialMessages]);
+    }
+  }, [selectedContact]);
 
   const showNextQuestion = () => {
     const nextQuestion = questionsData[questionIndex];
