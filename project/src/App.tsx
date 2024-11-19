@@ -197,7 +197,7 @@ function App() {
   };
 
   const loadQuestionsForContact = (contactName: string) => {
-    if (contactName === "Cassandra Consultas") {
+    if (contactName === "Cassandra CQL") {
       import("./data/query_question.json").then((data) => {
         setQuestionsData(data.default);
       });
@@ -218,21 +218,18 @@ function App() {
     setSelectedContact(contact);
     setIsSidebarOpen(false);
   
-    // Generar un mensaje de bienvenida basado en el contacto seleccionado
     const welcomeMessage = {
       id: Date.now().toString(),
-      content: `Hola, bienvenido al bot de ${contact.firstname} ${contact.lastname}!, `,
+      content: `Hola, bienvenido al bot de ${contact.firstname} ${contact.lastname}!`,
       sender: "Bot",
       timestamp: new Date(),
       isOwn: false,
     };
   
-    // Reiniciar el chat con el mensaje inicial y el mensaje de bienvenida
     setMessages([welcomeMessage, ...initialMessages]);
     setQuestionIndex(0);
     setCorrectAnswers(0);
-  
-    // Cargar las preguntas basadas en el contacto seleccionado
+    setIsQuestionAnswered(false); // Reinicia el estado de respuesta
     loadQuestionsForContact(contact.firstname);
   };
   // useEffect para mostrar el mensaje de bienvenida al cargar la aplicación
@@ -293,9 +290,13 @@ function App() {
     if (isQuestionAnswered) return;
 
     if (action === "start_quiz") {
-      if (questionIndex === 0 && messages[messages.length - 1].content !== questionsData[0].question) {
+      if (questionIndex === 0 || questionIndex >= questionsData.length) {
+        // Reiniciar los estados necesarios
+        setQuestionIndex(0);
+        setCorrectAnswers(0);
+        setIsQuestionAnswered(false);
         showNextQuestion();
-      }
+        }
     } else if (action === "logout") {
       handleLogout();
     } else if (action.startsWith("answer_")) {
