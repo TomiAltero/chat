@@ -1,0 +1,112 @@
+[
+    {
+      "question": "¿En qué año se desarrolló Apache Cassandra por primera vez?",
+      "options": [
+        "2005",
+        "2008",
+        "2010",
+        "2012"
+      ],
+      "correctAnswer": "2008",
+      "explanation": "Cassandra fue desarrollada inicialmente por ingenieros de Facebook en 2008 para mejorar su motor de búsqueda en la bandeja de entrada."
+    },
+    {
+      "question": "¿Qué empresas contribuyeron al desarrollo y mejora de Cassandra después de su creación?",
+      "options": [
+        "Amazon y Google",
+        "Facebook y Netflix",
+        "IBM y Microsoft",
+        "LinkedIn y Twitter"
+      ],
+      "correctAnswer": "Facebook y Netflix",
+      "explanation": "Después de que Facebook lanzara Cassandra como un proyecto de código abierto en 2008, empresas como Netflix contribuyeron a su evolución y popularidad gracias a su necesidad de gestionar grandes volúmenes de datos distribuidos."
+    },
+    {
+      "question": "¿En qué contexto fue desarrollada Apache Cassandra?",
+      "options": [
+        "Como un proyecto para la gestión de bases de datos relacionales",
+        "Para resolver la necesidad de almacenar grandes volúmenes de datos en Facebook",
+        "Como un sistema de base de datos para aplicaciones de escritorio",
+        "Para un proyecto universitario de manejo de archivos"
+      ],
+      "correctAnswer": "Para resolver la necesidad de almacenar grandes volúmenes de datos en Facebook",
+      "explanation": "Cassandra fue creada en Facebook para gestionar las grandes cantidades de datos generados en la funcionalidad de búsqueda de mensajes de usuario."
+    },
+    {
+      "question": "¿Cuál de las siguientes características describe mejor a Apache Cassandra?",
+      "options": [
+        "Un sistema de base de datos relacional",
+        "Una base de datos distribuida y altamente escalable",
+        "Un motor de búsqueda de texto simple",
+        "Un sistema de almacenamiento basado en tablas relacionales"
+      ],
+      "correctAnswer": "Una base de datos distribuida y altamente escalable",
+      "explanation": "Cassandra es conocida por ser una base de datos NoSQL distribuida que proporciona alta disponibilidad y escalabilidad horizontal."
+    },
+    {
+      "question": "¿Qué modelos de bases de datos influyeron en el diseño de Cassandra?",
+      "options": [
+        "El modelo relacional de IBM",
+        "El Bigtable de Google y el Dynamo de Amazon",
+        "El motor de almacenamiento de Oracle",
+        "El sistema de archivos de Linux"
+      ],
+      "correctAnswer": "El Bigtable de Google y el Dynamo de Amazon",
+      "explanation": "Cassandra fue influenciada por el modelo de Bigtable de Google para la estructura de almacenamiento de columnas y por el Dynamo de Amazon para la arquitectura de nodos distribuidos."
+    },
+    {
+      "question": "¿Qué organización mantiene y desarrolla actualmente Apache Cassandra?",
+      "options": [
+        "Oracle",
+        "The Apache Software Foundation",
+        "Google",
+        "Microsoft"
+      ],
+      "correctAnswer": "The Apache Software Foundation",
+      "explanation": "Apache Cassandra es un proyecto de código abierto mantenido por The Apache Software Foundation desde 2009."
+    },
+    {
+      "question": "¿Cuál es la principal razón por la que Cassandra es conocida por su escalabilidad?",
+      "options": [
+        "Soporta solo almacenamiento local",
+        "Puede escalar horizontalmente añadiendo más nodos sin tiempo de inactividad",
+        "Funciona solo en un entorno centralizado",
+        "Tiene un límite de almacenamiento pequeño"
+      ],
+      "correctAnswer": "Puede escalar horizontalmente añadiendo más nodos sin tiempo de inactividad",
+      "explanation": "Cassandra permite una escalabilidad horizontal real, lo que significa que se pueden añadir nodos al clúster sin interrupciones, mejorando la capacidad de almacenamiento y procesamiento."
+    },
+    {
+      "question": "¿Cuál es uno de los casos de uso más comunes de Apache Cassandra?",
+      "options": [
+        "Sistemas de bases de datos financieras con alta consistencia",
+        "Almacenamiento de datos distribuidos con alta disponibilidad",
+        "Aplicaciones de escritorio sin conexión",
+        "Sistemas de gestión de bibliotecas"
+      ],
+      "correctAnswer": "Almacenamiento de datos distribuidos con alta disponibilidad",
+      "explanation": "Cassandra es ideal para aplicaciones que requieren alta disponibilidad y la capacidad de manejar grandes volúmenes de datos distribuidos en múltiples centros de datos."
+    },
+    {
+      "question": "¿Qué característica única tiene Cassandra en comparación con otras bases de datos NoSQL?",
+      "options": [
+        "Solo soporta operaciones de lectura",
+        "No requiere replicación de datos",
+        "Tiene un modelo de consistencia ajustable",
+        "Solo se usa en entornos monolíticos"
+      ],
+      "correctAnswer": "Tiene un modelo de consistencia ajustable",
+      "explanation": "Cassandra permite ajustar el nivel de consistencia de las operaciones, lo que da a los usuarios flexibilidad para equilibrar la consistencia y la disponibilidad según las necesidades."
+    },
+    {
+      "question": "¿En qué año fue Apache Cassandra graduada como un proyecto de nivel superior por The Apache Software Foundation?",
+      "options": [
+        "2010",
+        "2008",
+        "2012",
+        "2015"
+      ],
+      "correctAnswer": "2010",
+      "explanation": "Cassandra fue graduada a un proyecto de nivel superior por The Apache Software Foundation en 2010, lo que marcó su madurez como una tecnología confiable."
+    }
+]

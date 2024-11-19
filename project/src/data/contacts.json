@@ -1,21 +1,21 @@
 [
     {
       "id": "1",
-      "firstname": "Cassandra Queries",
+      "firstname": "Cassandra Consultas",
       "lastname": "",
       "avatar": "https://miro.medium.com/v2/resize:fit:1400/0*SKrW656Nlzo2lZwH.png",
       "status": "online"
     },
     {
       "id": "2",
-      "firstname": "Cassandra History",
+      "firstname": "Cassandra Historia",
       "lastname": "",
       "avatar": "https://miro.medium.com/v2/resize:fit:1400/0*SKrW656Nlzo2lZwH.png",
       "status": "online"
     },
     {
       "id": "3",
-      "firstname": "Cassandra Theory",
+      "firstname": "Cassandra Conceptos",
       "lastname": "",
       "avatar": "https://miro.medium.com/v2/resize:fit:1400/0*SKrW656Nlzo2lZwH.png",
       "status": "online"

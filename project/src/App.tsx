@@ -6,7 +6,7 @@ import { AuthPanel } from "./components/AuthPanel";
 import { Header } from "./components/Header";
 import { Menu, X } from "lucide-react";
 import axios from "axios";
-import questions from "./data/questions.json";
+import query_question from "./data/query_question.json";
 import contactsData from "./data/contacts.json";
 
 const initialMessages = [
@@ -39,13 +39,17 @@ function App() {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [isQuestionAnswered, setIsQuestionAnswered] = useState(false);
   const [showLoginAfterRegister, setShowLoginAfterRegister] = useState(false);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+  const swipeDistance = touchStartX.current - touchEndX.current;
+
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
-    setQuestionsData(questions);
+    setQuestionsData(query_question);
   }, []);
 
   useEffect(() => {
@@ -128,6 +132,47 @@ function App() {
     localStorage.removeItem("user");
   };
 
+    // Función para abrir el panel
+    const openSidebar = () => setIsSidebarOpen(true);
+
+    // Función para manejar el inicio del toque
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartX.current = e.touches[0].clientX;
+    };
+  
+    // Función para manejar el movimiento del toque
+    const handleTouchMove = (e: TouchEvent) => {
+      touchEndX.current = e.touches[0].clientX;
+    };
+  
+    const handleTouchEnd = () => {
+      const swipeDistance = touchStartX.current - touchEndX.current;
+      
+      // Si el deslizamiento es hacia la derecha (mayor a 50px), abrir el panel
+      if (swipeDistance < -50) {
+        openSidebar();
+      }
+  
+      // Si el deslizamiento es hacia la izquierda (mayor a 50px), cerrar el panel
+      if (swipeDistance > 50) {
+        setIsSidebarOpen(false);
+      }
+    };
+  
+    // Agregar los eventos táctiles
+    useEffect(() => {
+      window.addEventListener("touchstart", handleTouchStart);
+      window.addEventListener("touchmove", handleTouchMove);
+      window.addEventListener("touchend", handleTouchEnd);
+  
+      return () => {
+        window.removeEventListener("touchstart", handleTouchStart);
+        window.removeEventListener("touchmove", handleTouchMove);
+        window.removeEventListener("touchend", handleTouchEnd);
+      };
+    }, []);
+  
+
   const handleSendMessage = (content: string) => {
     if (!content.trim()) return;
 
@@ -141,6 +186,24 @@ function App() {
     setMessages((prevMessages) => [...prevMessages, newMessage]);
   };
 
+  const loadQuestionsForContact = (contactName: string) => {
+    if (contactName === "Cassandra Queries") {
+      import("./data/query_question.json").then((data) => {
+        setQuestionsData(data.default);
+      });
+    } else if (contactName === "Cassandra History") {
+      import("./data/history_question.json").then((data) => {
+        setQuestionsData(data.default);
+      });
+    } else if(contactName === "Cassandra Theory") {
+      import("./data/theory_question.json").then((data) => {
+        setQuestionsData(data.default);
+      })
+      }else {
+      setQuestionsData([]);
+      };
+  };
+
   const handleContactSelect = (contact: any) => {
     setSelectedContact(contact);
     setIsSidebarOpen(false);
@@ -148,7 +211,7 @@ function App() {
     // Generar un mensaje de bienvenida basado en el contacto seleccionado
     const welcomeMessage = {
       id: Date.now().toString(),
-      content: `Hola, bienvenido al bot de ${contact.firstname} ${contact.lastname}!`,
+      content: `Hola, bienvenido al bot de ${contact.firstname} ${contact.lastname}!, `,
       sender: "Bot",
       timestamp: new Date(),
       isOwn: false,
@@ -158,8 +221,10 @@ function App() {
     setMessages([welcomeMessage, ...initialMessages]);
     setQuestionIndex(0);
     setCorrectAnswers(0);
-  };
   
+    // Cargar las preguntas basadas en el contacto seleccionado
+    loadQuestionsForContact(contact.firstname);
+  };
   // useEffect para mostrar el mensaje de bienvenida al cargar la aplicación
   useEffect(() => {
     if (selectedContact) {

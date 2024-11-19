@@ -1,0 +1,113 @@
+[
+    {
+      "question": "¿Qué es Apache Cassandra?",
+      "options": [
+        "Un sistema de gestión de bases de datos relacional",
+        "Un sistema de mensajería basado en eventos",
+        "Una base de datos distribuida NoSQL",
+        "Un servicio en la nube para aplicaciones en tiempo real"
+      ],
+      "correctAnswer": "Una base de datos distribuida NoSQL",
+      "explanation": "Apache Cassandra es una base de datos distribuida NoSQL diseñada para manejar grandes volúmenes de datos en múltiples nodos sin un único punto de fallo."
+    },
+    {
+      "question": "¿Qué modelo de consistencia utiliza Cassandra por defecto?",
+      "options": [
+        "Fuerte consistencia",
+        "Consistencia eventual",
+        "Lectura comprometida",
+        "Consistencia estricta"
+      ],
+      "correctAnswer": "Consistencia eventual",
+      "explanation": "Cassandra utiliza un modelo de consistencia eventual por defecto, lo que significa que los datos se sincronizan gradualmente entre nodos, priorizando la disponibilidad."
+    },
+    {
+      "question": "¿Qué es un Keyspace en Cassandra?",
+      "options": [
+        "Un esquema que define las columnas de una tabla",
+        "Un contenedor para tablas, similar a una base de datos en SQL",
+        "Un tipo de partición para distribuir datos",
+        "Un índice secundario para optimizar consultas"
+      ],
+      "correctAnswer": "Un contenedor para tablas, similar a una base de datos en SQL",
+      "explanation": "Un Keyspace en Cassandra es un contenedor para varias tablas, similar a una base de datos en sistemas relacionales."
+    },
+    {
+      "question": "¿Cuál es el propósito del archivo de configuración 'cassandra.yaml'?",
+      "options": [
+        "Definir la estructura de las tablas",
+        "Configurar la replicación y nodos de Cassandra",
+        "Especificar las consultas por defecto",
+        "Almacenar datos temporales"
+      ],
+      "correctAnswer": "Configurar la replicación y nodos de Cassandra",
+      "explanation": "El archivo 'cassandra.yaml' se utiliza para configurar aspectos importantes de Cassandra, como la replicación, la estructura de red y otros parámetros del cluster."
+    },
+    {
+      "question": "¿Qué es un 'Partition Key' en Cassandra?",
+      "options": [
+        "Un identificador único para cada fila en una tabla",
+        "Una clave que determina en qué nodo se almacena una fila",
+        "Un índice secundario que mejora el rendimiento",
+        "Una clave que controla la replicación de datos"
+      ],
+      "correctAnswer": "Una clave que determina en qué nodo se almacena una fila",
+      "explanation": "El 'Partition Key' es responsable de determinar cómo se distribuyen las filas en los distintos nodos del cluster de Cassandra."
+    },
+    {
+      "question": "¿Cuál es la finalidad del comando CQL 'CREATE TABLE'?",
+      "options": [
+        "Crear un nuevo Keyspace",
+        "Definir una nueva tabla con columnas y tipos de datos",
+        "Eliminar una tabla existente",
+        "Actualizar los datos de una tabla"
+      ],
+      "correctAnswer": "Definir una nueva tabla con columnas y tipos de datos",
+      "explanation": "El comando 'CREATE TABLE' en Cassandra se utiliza para definir una nueva tabla junto con sus columnas y tipos de datos."
+    },
+    {
+      "question": "¿Qué método de replicación utiliza Cassandra para asegurar la disponibilidad de datos?",
+      "options": [
+        "Replicación Master-Slave",
+        "Replicación Multimaestro",
+        "Replicación en Cadenas",
+        "Replicación Activa-Pasiva"
+      ],
+      "correctAnswer": "Replicación Multimaestro",
+      "explanation": "Cassandra utiliza un modelo de replicación multimaestro que permite la escritura en cualquier nodo del cluster, mejorando la disponibilidad."
+    },
+    {
+      "question": "¿Qué es un 'Cluster' en Cassandra?",
+      "options": [
+        "Una colección de filas relacionadas dentro de una tabla",
+        "Un grupo de Keyspaces organizados jerárquicamente",
+        "Un conjunto de nodos que trabajan juntos para gestionar datos",
+        "Un tipo de índice para optimizar consultas"
+      ],
+      "correctAnswer": "Un conjunto de nodos que trabajan juntos para gestionar datos",
+      "explanation": "Un cluster en Cassandra es un conjunto de nodos que colaboran para almacenar y gestionar datos de forma distribuida."
+    },
+    {
+      "question": "¿Qué significa 'Scaling Out' en el contexto de Cassandra?",
+      "options": [
+        "Agregar más CPU y memoria a los servidores existentes",
+        "Eliminar nodos del cluster para mejorar el rendimiento",
+        "Añadir más nodos al cluster para manejar cargas mayores",
+        "Reducir la cantidad de datos almacenados"
+      ],
+      "correctAnswer": "Añadir más nodos al cluster para manejar cargas mayores",
+      "explanation": "El 'Scaling Out' implica agregar más nodos al cluster para mejorar la capacidad y tolerancia a fallos."
+    },
+    {
+      "question": "¿Cuál es la función del 'Commit Log' en Cassandra?",
+      "options": [
+        "Almacenar datos temporalmente antes de ser indexados",
+        "Mantener un registro de las operaciones para recuperación de fallos",
+        "Administrar la replicación de datos entre nodos",
+        "Realizar consultas en tiempo real"
+      ],
+      "correctAnswer": "Mantener un registro de las operaciones para recuperación de fallos",
+      "explanation": "El 'Commit Log' es un registro de todas las operaciones de escritura en Cassandra, utilizado para la recuperación en caso de fallos."
+    }
+  ]
+  
