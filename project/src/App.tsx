@@ -41,6 +41,9 @@ function App() {
   const [showLoginAfterRegister, setShowLoginAfterRegister] = useState(false);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
+  const isSwiping = useRef(false); // Nueva variable para rastrear si se está deslizando
+  const swipeThreshold = 50; // Define el umbral de deslizamiento (en píxeles)
+
   const swipeDistance = touchStartX.current - touchEndX.current;
 
 
@@ -138,33 +141,40 @@ function App() {
     // Función para manejar el inicio del toque
     const handleTouchStart = (e: TouchEvent) => {
       touchStartX.current = e.touches[0].clientX;
+      isSwiping.current = false; // Restablecer el estado de deslizamiento al inicio
     };
-  
     // Función para manejar el movimiento del toque
     const handleTouchMove = (e: TouchEvent) => {
       touchEndX.current = e.touches[0].clientX;
+      const swipeDistance = touchStartX.current - touchEndX.current;
+      
+      // Verifica si la distancia supera el umbral para considerarlo como un deslizamiento
+      if (Math.abs(swipeDistance) > swipeThreshold) {
+        isSwiping.current = true;
+      }
     };
-  
+    
     const handleTouchEnd = () => {
       const swipeDistance = touchStartX.current - touchEndX.current;
       
-      // Si el deslizamiento es hacia la derecha (mayor a 50px), abrir el panel
-      if (swipeDistance < -50) {
+      // Si es un deslizamiento hacia la derecha y se superó el umbral, abre el sidebar
+      if (isSwiping.current && swipeDistance < -swipeThreshold) {
         openSidebar();
       }
-  
-      // Si el deslizamiento es hacia la izquierda (mayor a 50px), cerrar el panel
-      if (swipeDistance > 50) {
+    
+      // Si es un deslizamiento hacia la izquierda y se superó el umbral, cierra el sidebar
+      if (isSwiping.current && swipeDistance > swipeThreshold) {
         setIsSidebarOpen(false);
       }
     };
+    
   
     // Agregar los eventos táctiles
     useEffect(() => {
       window.addEventListener("touchstart", handleTouchStart);
       window.addEventListener("touchmove", handleTouchMove);
       window.addEventListener("touchend", handleTouchEnd);
-  
+    
       return () => {
         window.removeEventListener("touchstart", handleTouchStart);
         window.removeEventListener("touchmove", handleTouchMove);
@@ -187,15 +197,15 @@ function App() {
   };
 
   const loadQuestionsForContact = (contactName: string) => {
-    if (contactName === "Cassandra Queries") {
+    if (contactName === "Cassandra Consultas") {
       import("./data/query_question.json").then((data) => {
         setQuestionsData(data.default);
       });
-    } else if (contactName === "Cassandra History") {
+    } else if (contactName === "Cassandra Historia") {
       import("./data/history_question.json").then((data) => {
         setQuestionsData(data.default);
       });
-    } else if(contactName === "Cassandra Theory") {
+    } else if(contactName === "Cassandra Conceptos") {
       import("./data/theory_question.json").then((data) => {
         setQuestionsData(data.default);
       })
