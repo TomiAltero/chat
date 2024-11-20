@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 5000;
 // Configuración de CORS
 app.use(
   cors({
-    origin: "http://192.168.100.66:3000", 
+    origin: "http://192.168.20.135:3000", 
     methods: "GET,POST", 
     allowedHeaders: "Content-Type", 
   }),

@@ -1,7 +1,7 @@
 const { Client } = require("cassandra-driver");
 
 const client = new Client({
-  contactPoints: ["192.168.100.66"], 
+  contactPoints: ["192.168.20.135"], 
   localDataCenter: "datacenter1", 
   keyspace: "chat_system_db", 
 });

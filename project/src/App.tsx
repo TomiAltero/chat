@@ -68,7 +68,7 @@ function App() {
 
   const handleLogin = async (email: string, password: string) => {
     try {
-      const response = await axios.post("http://192.168.100.66:5000/api/login", {
+      const response = await axios.post("http://192.168.20.135:5000/api/login", {
         email,
         password,
       });
@@ -95,7 +95,7 @@ function App() {
 
   const handleRegister = async (email: string, password: string, firstname: string, lastname: string) => {
     try {
-      const response = await axios.post("http://192.168.100.66:5000/api/users", {
+      const response = await axios.post("http://192.168.20.135:5000/api/users", {
         email,
         password,
         firstname,
