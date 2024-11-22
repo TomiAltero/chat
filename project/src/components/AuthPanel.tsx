@@ -16,8 +16,17 @@ export function AuthPanel({ onLogin, onRegister }: AuthPanelProps) {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isChatVisible, setIsChatVisible] = useState(false);
+  const [animationClass, setAnimationClass] = useState("slide-in");
 
+  const toggleForm = () => {
+    setAnimationClass("slide-out");
 
+    setTimeout(() => {
+      // Cambia entre login y registro después de la animación
+      setIsLogin(!isLogin);
+      setAnimationClass("slide-in");
+    }, 500); // La duración debe coincidir con la animación CSS
+  };
   useEffect(() => {
     if (successMessage) {
       // Mostrar el chat después de 2 segundos
@@ -52,23 +61,11 @@ export function AuthPanel({ onLogin, onRegister }: AuthPanelProps) {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 p-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 animate-slideIn">
+      <div className={`w-full max-w-md bg-white rounded-2xl shadow-lg p-8 ${animationClass}`}>
         <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
           {isLogin ? "Inicio de Sesión" : "Regístrate"}
         </h2>
-
-        {successMessage && (
-          <div className="fixed top-0 left-1/2 transform -translate-x-1/2 bg-green-500 text-white p-4 rounded-lg shadow-lg w-full max-w-md text-center">
-            {successMessage}
-          </div>
-        )}
-
-        {errorMessage && (
-          <div className="fixed top-0 left-1/2 transform -translate-x-1/2 bg-red-500 text-white p-4 rounded-lg shadow-lg w-full max-w-md text-center">
-            {errorMessage}
-          </div>
-        )}
-
+        {/* Formulario */}
         <form onSubmit={handleSubmit} className="space-y-6">
           {!isLogin && (
             <>
@@ -96,7 +93,6 @@ export function AuthPanel({ onLogin, onRegister }: AuthPanelProps) {
               </div>
             </>
           )}
-
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
@@ -119,7 +115,6 @@ export function AuthPanel({ onLogin, onRegister }: AuthPanelProps) {
               required
             />
           </div>
-
           <button
             type="submit"
             disabled={isLoading}
@@ -130,22 +125,12 @@ export function AuthPanel({ onLogin, onRegister }: AuthPanelProps) {
             {isLoading ? "Cargando..." : isLogin ? "Iniciar Sesión" : "Registrarse"}
           </button>
         </form>
-
         <div className="mt-6 text-center">
-          <button
-            onClick={() => setIsLogin(!isLogin)}
-            className="text-sm text-blue-600 hover:text-blue-700"
-          >
+          <button onClick={toggleForm} className="text-sm text-blue-600 hover:text-blue-700">
             {isLogin ? "¿No tienes cuenta? Regístrate" : "¿Ya tienes cuenta? Inicia sesión"}
           </button>
         </div>
       </div>
-
-      {isChatVisible && (
-        <div className="fixed bottom-4 right-4 bg-blue-500 text-white p-4 rounded-lg shadow-lg z-50">
-          <p>Chat rápido</p>
-        </div>
-      )}
     </div>
   );
-}
+};

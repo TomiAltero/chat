@@ -68,7 +68,7 @@ function App() {
 
   const handleLogin = async (email: string, password: string) => {
     try {
-      const response = await axios.post("http://192.168.20.135:5000/api/login", {
+      const response = await axios.post("http://127.0.0.1:5000/api/login", {
         email,
         password,
       });
@@ -95,7 +95,7 @@ function App() {
 
   const handleRegister = async (email: string, password: string, firstname: string, lastname: string) => {
     try {
-      const response = await axios.post("http://192.168.20.135:5000/api/users", {
+      const response = await axios.post("http://127.0.0.1:5000/api/users", {
         email,
         password,
         firstname,
@@ -358,17 +358,19 @@ function App() {
         >
           {isSidebarOpen ? <X className="w-6 h-6 text-gray-600" /> : <Menu className="w-6 h-6 text-gray-600" />}
         </button>
-
+  
+        {/* Sidebar (Contacts List) */}
         <div
-          className={`absolute md:relative w-80 h-full bg-white transform transition-transform duration-300 ease-in-out z-40 ${
-            isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+          className={`absolute md:relative w-80 h-full bg-white transform transition-transform duration-300 ease-in-out z-40 animate-slideIn ${
+            isSidebarOpen ? "translate-x-0 opacity-100" : "-translate-x-full md:translate-x-0 opacity-0"
           }`}
         >
           <ContactsList contacts={contacts} onSelectContact={handleContactSelect} selectedContactId={selectedContact?.id} />
         </div>
-
+  
+        {/* Chat Messages */}
         {isChatVisible && (
-          <div className="flex-1 flex flex-col">
+          <div className="flex-1 flex flex-col animate-fadeIn">
             <Header
               user={user}
               selectedContactName={selectedContact ? `${selectedContact.firstname} ${selectedContact.lastname}` : ""}
@@ -386,6 +388,7 @@ function App() {
       </div>
     </div>
   );
+  
 }
 
 export default App;
